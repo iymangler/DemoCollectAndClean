@@ -10,6 +10,7 @@
 # then the function should return NA.
 
 library(reshape2)
+library(dataMaid)
 
 ##1. Download and unzip the dataset
 fileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
@@ -34,7 +35,7 @@ onlyMyFeatures <- grep(".*mean.*|.*std.*", features[,2])
 onlyMyFeatures.names <- features[onlyMyFeatures,2]
 onlyMyFeatures.names <- gsub('[-()]', '', onlyMyFeatures.names)
 onlyMyFeatures.names = gsub('-mean', 'Mean',onlyMyFeatures.names)
-onlyMyFeatures.names = gsub('-std', 'Std', onlyMyFeatures.names)
+onlyMyFeatures.names = gsub('-std', 'StandardDeviation', onlyMyFeatures.names)
 
 # Load train dataset
 trainFeatures <- read.table("UCI HAR Dataset/train/X_train.txt")[onlyMyFeatures]
@@ -62,3 +63,7 @@ trainTestMerge.mean <- dcast(trainTestMerge.massage, subject + activity ~ variab
 
 # Write the output into a tidy file
 write.table(trainTestMerge.mean, "tidyTidyTadata.txt", row.names = FALSE, quote = FALSE)
+
+#write the code book
+help(trainTestMerge.mean)
+makeCodebook(trainTestMerge.mean)
